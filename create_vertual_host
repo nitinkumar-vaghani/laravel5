@@ -1,0 +1,57 @@
+vnits@vnits:~$ sudo -i
+sudo: /var/lib/sudo writable by non-owner (040777), should be mode 0700
+[sudo] password for vnits: 
+root@vnits:~# cd /etc/apache2/sites-available/
+root@vnits:/etc/apache2/sites-available# ls
+000-default.conf   cakedomain.conf~  default.save      tracker.conf
+000-default.conf~  default           default-ssl.conf  tracker.conf~
+cakedomain.conf    default~          tracker1.conf
+root@vnits:/etc/apache2/sites-available# cp 000-default.conf lara5.conf
+root@vnits:/etc/apache2/sites-available# ls
+000-default.conf   cakedomain.conf~  default.save      tracker1.conf
+000-default.conf~  default           default-ssl.conf  tracker.conf
+cakedomain.conf    default~          lara5.conf        tracker.conf~
+root@vnits:/etc/apache2/sites-available# gedit lara5.conf 
+
+
+
+============================================lara5.conf===============================================
+
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	ServerName lara5.com
+	ServerAlias www.lara5.com
+	DocumentRoot /var/www/html/lara5/public
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+============================================save and exit lara5.conf=================================
+
+
+
+
+root@vnits:/etc/apache2/sites-available# a2ensite lara5.conf
+Enabling site lara5.
+To activate the new configuration, you need to run:
+  service apache2 reload
+root@vnits:/etc/apache2/sites-available# service apache2 restart 
+ * Restarting web server apache2                                                [Thu Dec 17 15:18:25.117596 2015] [so:warn] [pid 9512] AH01574: module rewrite_module is already loaded, skipping
+
+                                                                         [ OK ]
+
+root@vnits:/etc/apache2/sites-available# gedit /etc/hosts
+
+
+=========================================past this line into hosts list =======================================
+
+127.0.0.1	lara5.com
+
+=============================================/ save and exit ==================================================
+
+
+root@vnits:/etc/apache2/sites-available# service apache2 restart 
+ * Restarting web server apache2                                                [Thu Dec 17 15:19:26.943094 2015] [so:warn] [pid 9596] AH01574: module rewrite_module is already loaded, skipping
+
+                                                                         [ OK ]
