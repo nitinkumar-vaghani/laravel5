@@ -1,0 +1,124 @@
+ > Help : http://tutsnare.com/how-to-install-laravel-on-ubuntu-lamp/
+
+Step 1: Required system configuration : PHP >= 5.4
+				Mcrypt PHP Extension
+				OpenSSL PHP Extension
+				Mbstring PHP Extension
+
+INSTALL : 
+
+		update ubuntu :  1) sudo apt-get update
+				 2) sudo apt-get upgrade
+
+
+		Install php mysql and apache :  1) sudo apt-get install apache2
+						2) sudo apt-get install php5
+						3) sudo apt-get install mysql-server
+						4) sudo apt-get install php5-mysql
+	
+Step 2 : Now we need to install some of require extension (json, curl, mcrypt etc.) to run and download laravel framework. and then restart apache server to setup all extension.
+
+INSTALL : 	1) #installing json extension
+	        sudo apt-get install php5-json
+
+		2) #installing unzip extension
+		sudo apt-get install unzip
+
+ 		3) #installing curl extension
+		sudo apt-get install curl
+
+		4) #installing openssl extension
+		sudo apt-get install openssl
+
+		5) #installing mcrypt extension
+		sudo apt-get install php5-mcrypt
+
+		6) #enable mcrypt extension
+		sudo php5enmod mcrypt
+
+		7) #installing git
+		sudo apt-get install -y git-core
+
+		8) #enable mod rewrite extension
+		sudo a2enmod rewrite
+
+		9) #restarting apache
+		sudo service apache2 restart
+
+
+
+
+step 3:  After successfully configure all php setup and require extension we need to install composer to download laravel from remote server.
+   for this first command will be for download composer using curl then second one move composer to local user directory for make composer globally use. 
+
+INSTALL : 	1) # installing composer
+		curl -sS https://getcomposer.org/installer | php
+
+		2)# move composer globally
+		sudo mv composer.phar /usr/local/bin/composer
+
+		3)# check composer working
+		composer
+
+//************************* METHOD 1 (Via Laravel Installer)************************************//
+
+		step 4: install laravel Via Laravel Installer :-
+
+			laravel installer is a new method to ilaracelnstall added for laravel 5. 
+			it’s much faster method than installing via Composer.
+
+			# Download manually laravel file(as per you need based on version)
+		        # https://github.com/laravel/laravel/archive/v5.1.11.tar.gz
+
+		INSTALL : 1) # download installer
+			     composer global require "laravel/installer=~1.1"
+			  2) #setting up path
+			     export PATH="~/.composer/vendor/bin:$PATH" 
+		          3) # change dir where to install
+			     cd /var/www/html/
+		          4) # download and installing
+			     laravel new laravelnew
+			  5) # giving permission
+			     chmod -R 777 laravelnew
+
+
+//************************ METHOD 2 (Via Composer)****************************************//
+Step 4:  install laravel Via composer
+
+		A : create project command :-
+			after install composer you can directly install laravel by create-project command and give your destination path 				where you want to install laravel.
+
+			INSTALL : 1) # checking composer is successfully installed
+				     composer
+				  2) # downloading and install via composer
+				     #composer create-project laravel/laravel --prefer-dist
+				     sudo composer create-project laravel/laravel /var/www/html/laravel3
+				  3) # setting up writable permission
+				     sudo chmod -R 777 /var/www/html/laravel3
+
+		B. manually download and install(via commands) :-
+			this is a long method to install laravel in this method we need to download laravel files then extract then move 				then apply permission and then we need composer install command. 
+		INSTALL : 1) # change directory to /var/www/html/(where i want to create laravel project)
+			     cd /var/www/html/ 
+			  2) # downloading from github
+			     wget https://github.com/laravel/laravel/archive/master.zip
+			  3) # unzip downloaded zip
+			    unzip master.zip 
+			  4) # giving a new name to extract directrory
+			    mv /var/www/html/laravel-master /var/www/html/laravel2
+			  5) # giving writable permission
+			    sudo chmod -R 777 laravel2
+			  6) # removing zip file
+			    rm master.zip
+			  7) # getting project directory where i need to install project
+			    cd laravel2
+			  8) # installing using composer
+			    composer install
+
+Step 5 : php artisan serv
+
+	http://localhost:8000/
+
+
+
+
