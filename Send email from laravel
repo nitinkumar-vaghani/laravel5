@@ -1,0 +1,78 @@
+Laravel mail from local
+
+.env
+
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=nitinvaghani34@gmail.com
+MAIL_PASSWORD=password
+MAIL_ENCRYPTION=tls
+
+
+Controller
+
+use Mail;
+
+    public function test_mail() {
+        error_reporting(E_ALL);
+        ini_set('display_erros', 1);
+        try {
+            $email = array('jamesdonald446@gmail.com');
+            $data = array('LjBazaar' => 'nitin');
+
+            Mail::send('emails.test', $data, function ($message) use($email) {
+                $message->from('vnits108@gmail.com', 'Vin Master');
+                $message->to($email);
+                $message->subject("Miss you request test");
+            });
+
+            if (count(Mail::failures()) > 0) {
+
+                echo "There was one or more failures. They were: <br />";
+
+                foreach (Mail::failures as $email_address) {
+                    echo " - $email_address <br />";
+                }
+            } else {
+                echo "No errors, all sent successfully!";
+            }
+        } catch (Exception $e) {
+
+                        dd($e->getMessage());
+            log_message("ERROR", $e->getMessage());
+        }
+    }
+
+
+View /emails/ test.blade.php
+
+<!DOCTYPE html>
+<html lang="en-EN">
+<meta charset="utf-8">
+<meta LjBazaar="viewport" content="width=device-width, initial-scale=1">
+<link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" >
+<style type="text/css">
+	table {
+		border-collapse: collapse;
+		width: 70%;
+	}
+	table, th, td {
+		border: 1px solid black;
+	}
+</style>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6 col-md-4">
+        Hi {{ $LjBazaar }},
+        Good noon
+        <p>Thanks,</p>
+            Vin
+        </div>
+    </div>
+</div>
+</html>
+
