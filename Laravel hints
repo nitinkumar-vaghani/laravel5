@@ -1,0 +1,167 @@
+Laravel
+
+
+Admin theme : http://demo.sleepingowladmin.ru/admin/
+
+Run laravel with port : php artisan serve --port=9090
+
+Create new table : php artisan make:migration create_oauth_access_tokens_table --create="oauth_access_tokens"
+
+Update migration into database : php artisan migrate
+
+Refresh migration into database :  php artisan migrate:refresh
+
+Create a new migration using php artisan migrate:make update_users_table.
+
+
+Composer dump if autoload error : composer dump-autoload
+
+
+\DB::enableQueryLog();
+dd(\DB::getQueryLog());
+
+
+Truncate : 
+> php artisan tinker
+DB::table('table_LjBazaar')->truncate();
+
+
+Passport permission : sudo chown www-data:www-data storage/oauth-*.key
+
+generate migrations from database: https://github.com/Xethron/migrations-generator
+
+
+Temp : php artisan migrate --path=database/migrations/temp
+
+           php artisan migrate --path=/database/migrations/2016_10_25_120847_create_kafo_announcments_table
+
+Then use the table command as follows (if you're using MySQL!):
+
+Schema::table('users', function($table)
+{
+    $table->string('phone_nr')->after('id');
+});
+
+Once you've finished your migration, save it and run it using php artisan migrate and your table will be updated.
+
+Documentation: http://laravel.com/docs/schema#adding-columns
+
+Debug bar : https://www.youtube.com/watch?v=nV6qaLXH9vU
+
+
+
+Clear cache :  php artisan cache:clear
+
+
+Empty log file :  echo "" > logs/laravel.log 
+
+Create controller with resource : php artisan make:controller PeopleController --resource
+						 php artisan make:controller PhotoController --resource --model=Photo
+
+
+Get route list :  php artisan route:list
+
+Bind route : 
+
+Route::bind('songs', function($slug) {    
+    return App\Song::whereSlug($slug)->first();
+});
+
+
+only method allow in controller 
+
+Route::resource('songs','SongsController',[
+'only' => [
+'index','show','edit','update'
+]
+]);
+
+
+except method in controller 
+
+Route::resource('songs','SongsController',[
+'except' => [
+'create'
+]
+]);
+
+Create route alias using resource :
+
+
+  Route::resource('songs', 'SongsController', [
+        'as' => 'songs'
+    ]);
+
+
+Form model url :
+
+{!! Form::model($song,['url'=>'songs/'.$song->slug,'method'=>'PATCH']) !!}
+
+{!! Form::model($song,['route'=>['song_update',$song->slug],'method'=>'PATCH']) !!}
+
+Get all Error message : 
+
+<ul>
+    @foreach($errors->all() as $error)
+    <li>{{ $error }}</li>
+    @endforeach
+</ul>
+
+@if(Session::has('message'))
+<div class="alert alert-info">
+    {{Session::get('message')}}
+</div>
+@endif
+
+
+Get current route LjBazaar : http://stackoverflow.com/questions/30046691/how-to-get-current-route-name-in-laravel-5
+
+Set rule : 
+
+        if (isset($rules['avatar'])) {
+            $rules["avatar"] = array(
+                0 => "image",
+                1 => "mimes:jpeg,png,jpg,gif,svg",
+                2 => "max:2024"
+//                    0 => "required",
+//                    1 => "image",
+//                    2 => "mimes:jpeg,png,jpg,gif,svg",
+//                    3 => "max:2024"
+            );
+        }
+/*********************************************************** Process in laravel **********************************************************************/
+
+Process in Laravel:
+$process = new \Symfony\Component\Process\Process('/usr/bin/php ../artisan senduserlogemail:run 1 2 3 >>/dev/null 2>&1');
+$process->start();
+
+/var/www/html/sprytar/app/Console/Commands/SendUserLogEmail.php
+
+<?php
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use Log;
+use App\Mail\SupportRequest;
+class SendUserLogEmail extends Command {
+    protected $signature = 'senduserlogemail:run {user_id?} {activity_type?} {operation_type?}';
+    protected $description = 'Sprytar Cpanel user activity Email.';
+    public function __construct() {
+        parent::__construct();
+        Log::info('senduserlogemail:run', ['LOG INFO', date('d-m-Y h:s:i')]);
+    }
+
+    public function handle() {
+        Log::info('user activity', ['user id', $this->argument('user_id')]);
+    }
+}
+
+/var/www/html/sprytar/app/Console/Kernel.php
+
+  protected $commands = [
+        Commands\SendUserLogEmail::class,
+    ];
+
+/************************************************************** END ********************************************************************************************/
+
